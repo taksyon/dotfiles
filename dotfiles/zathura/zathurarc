@@ -1,0 +1,6 @@
+set recolor "true"
+set recolor-lightcolor "#000000"
+set recolor-darkcolor "#FFFFFF"
+
+set plugin "pdf-mupdf"
+set selection-clipboard clipboard
