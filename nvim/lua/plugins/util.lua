@@ -1,4 +1,10 @@
-local vim = vim
+--    ▗▖ ▗▖▗▄▄▄▖▗▄▄▄▖▗▖
+--    ▐▌ ▐▌  █    █  ▐▌
+--    ▐▌ ▐▌  █    █  ▐▌
+--    ▝▚▄▞▘  █  ▗▄█▄▖▐▙▄▄▖
+--
+--
+--
 
 return {
 
@@ -20,15 +26,15 @@ return {
 	--    ▌▌▙▌▙▌▌ █▌
 	--      ▄▌
 	{
-		"nvimtools/hydra.nvim",
+		'nvimtools/hydra.nvim',
 		config = function()
 			local Hydra = require('hydra')
 
 			Hydra({
 				name = 'Fast Nav',
 				mode = 'n',
-				body = '<leader>', -- triggers the hydra
-				hint = "  hydra",
+				body = '<leader>hh', -- triggers the hydra
+				hint = '  hydra',
 				config = {
 					color = 'pink', -- stays active until exit key is pressed
 					invoke_on_body = true,
@@ -40,7 +46,7 @@ return {
 						float_opts = {
 							-- row, col, height, width, relative, and anchor should not be
 							-- overridden
-							style = "minimal",
+							style = 'minimal',
 							focusable = false,
 							noautocmd = true,
 							border = 'rounded',
@@ -65,7 +71,7 @@ return {
 	--
 	-- https://github.com/echasnovski/mini.surround?tab=readme-ov-file#default-config
 	{
-		'echasnovski/mini.surround',
+		'nvim-mini/mini.surround',
 		event = 'VeryLazy',
 		config = function()
 			require('mini.surround').setup()
@@ -154,12 +160,9 @@ return {
 		},
 	},
 
-
-
 	--                          ▘
 	--    ▛▌▌▌█▌▛▘▛▘█▌█▌▛▘  ▛▌▌▌▌▛▛▌
 	--    ▙▌▚▘▙▖▌ ▄▌▙▖▙▖▌ ▗ ▌▌▚▘▌▌▌▌
-	--
 	{
 		'stevearc/overseer.nvim',
 		opts = {},

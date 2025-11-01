@@ -1,20 +1,21 @@
---  ▜       ▜
---  ▐ ▛▘▛▌  ▐ ▌▌▀▌
---  ▐▖▄▌▙▌▗ ▐▖▙▌█▌
---      ▌
+--    ▗▖    ▗▄▄▖▗▄▄▖
+--    ▐▌   ▐▌   ▐▌ ▐▌
+--    ▐▌    ▝▀▚▖▐▛▀▘
+--    ▐▙▄▄▖▗▄▄▞▘▐▌
 
 
 return {
 
 
-	--  ▛▛▌▀▌▛▘▛▌▛▌
-	--  ▌▌▌█▌▄▌▙▌▌▌
-	--
+	--    ▖  ▖▄▖▄▖▄▖▖ ▖   --------------------
+	--    ▛▖▞▌▌▌▚ ▌▌▛▖▌   --------------------
+	--    ▌▝ ▌▛▌▄▌▙▌▌▝▌   --------------------
+	--                    --------------------
 	-- https://github.com/mason-org/mason.nvim
 	{
 		'mason-org/mason.nvim',
 		dependencies = {
-			'williamboman/mason-lspconfig.nvim',
+			'mason-org/mason-lspconfig.nvim',
 			'neovim/nvim-lspconfig',
 		},
 		config = function()
@@ -27,11 +28,22 @@ return {
 				ensure_installed = {
 					'bashls',
 					'clangd',
+					'cmake',
+					'csharp_ls',
+					'cssls',
+					'fish_lsp',
+					'gradle_ls',
+					'html',
+					'hydra_lsp',
+					'hyprls',
 					'jdtls',
 					'jsonls',
 					'lua_ls',
+					'marksman',
 					'pyright',
 					'qmlls',
+					'systemd_ls',
+					'yamlls',
 					-- 'rust_analyzer',
 					-- 'sqls',
 				},
@@ -45,8 +57,11 @@ return {
 			--      ▌          ▄▌
 			-- https://github.com/neovim/nvim-lspconfig
 
-			local lspconfig = require('lspconfig')
+			-- local lspconfig = vim.lsp.config()
 
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+			--------------------------------------------------------------------------
 			local servers = {
 
 				--  ▌     ▌ ▜
@@ -61,6 +76,7 @@ return {
 							},
 						},
 					},
+					capabilities = capabilities
 				},
 
 				--    ▜        ▌
@@ -86,58 +102,91 @@ return {
 							'-I/usr/local/include'
 						},
 					},
+					capabilities = capabilities
 				},
 
-				--   ▘ ▌▗ ▜
-				--   ▌▛▌▜▘▐ ▛▘
-				--   ▌▙▌▐▖▐▖▄▌
-				--  ▙▌
+				--    ▌       ▜
+				--    ▛▌▌▌▛▌▛▘▐ ▛▘
+				--    ▌▌▙▌▙▌▌ ▐▖▄▌
+				--      ▄▌▌
+				hyprls = { capabilities = capabilities, },
 
-				-- SEE ../config/java.lua
-				-- jdtls = {
-				-- 	-- root_dir = vim.fs.root(0, { '.project', 'pom.xml', 'build.gradle', 'settings.gradle', 'gradlew', 'mvnw',
-				-- 	-- 	'.git' }),
-				-- 	-- cmd = { 'jdtls', '-data', '~/java-ws/.jdtls-workspace' },
-				-- },
+				--     ▘ ▌▗ ▜
+				--     ▌▛▌▜▘▐ ▛▘
+				--     ▌▙▌▐▖▐▖▄▌
+				--    ▙▌
+				--
+				-- https://github.com/mfussenegger/nvim-jdtls
+				-- https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+				jdtls = {
+					cmd = { "jdtls" },
+					root_dir = vim.fs.root(0, { 'gradlew', '.git', 'mvnw', '.project', 'src' }),
+					settings = {
+						java = {
+							project = {
+								sourcePaths = { "." }, -- or "." if you really want flat
+								referencedLibraries = {} -- add jars if you have any
+							},
+							format = {
+								settings = {
+									-- Use Google Java style guidelines for formatting
+									-- To use, make sure to download the file from https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml
+									-- and place it in the ~/.local/share/eclipse directory
+									-- url = "/.local/share/eclipse/eclipse-java-google-style.xml",
+									-- profile = "GoogleStyle",
+								},
+							},
+						}
+					},
+					capabilities = capabilities,
+				},
 
 				--   ▘      ▜
 				--   ▌▛▘▛▌▛▌▐ ▛▘
 				--   ▌▄▌▙▌▌▌▐▖▄▌
 				--  ▙▌
 
-				jsonls = {},
+				jsonls = { capabilities = capabilities },
+
 
 				--  ▜     ▜
 				--  ▐ ▌▌▀▌▐ ▛▘
 				--  ▐▖▙▌█▌▐▖▄▌
-				--
 
-				lua_ls = {},
+				lua_ls = { capabilities = capabilities },
 
 				--        ▘  ▌ ▗
 				--  ▛▌▌▌▛▘▌▛▌▛▌▜▘
 				--  ▙▌▙▌▌ ▌▙▌▌▌▐▖
 				--  ▌ ▄▌   ▄▌
 
-				pyright = {},
+				pyright = { capabilities = capabilities },
 
 				--       ▜ ▜
 				--  ▛▌▛▛▌▐ ▐ ▛▘
 				--  ▙▌▌▌▌▐▖▐▖▄▌
 				--   ▌
 
-				qmlls = {},
+				qmlls = { capabilities = capabilities },
 				-- rust_analyzer = {},
 
 			}
+			-----------------------------------------------------------------------------
 
-			-- Loop thru, set up servers
-			for server, config in pairs(servers) do
-				if server ~= 'jdtls' then lspconfig[server].setup(config) end
+			for name, overrides in pairs(servers) do
+				-- Build config from default settings w/ my overrides
+				vim.lsp.config(name, overrides)
+				vim.lsp.enable(name)
 			end
 		end,
 	},
+	-- END MASON ----------------
 
+
+	--          ▗             ▘
+	--    ▛▘▌▌▛▘▜▘▀▌▛▘█▌▀▌▛▌▌▌▌▛▛▌
+	--    ▌ ▙▌▄▌▐▖█▌▙▖▙▖█▌▌▌▚▘▌▌▌▌
+	--
 	{
 		'mrcjkb/rustaceanvim',
 		version = '^6', -- Recommended
@@ -149,41 +198,10 @@ return {
 	--   ▌█▌▚▘█▌
 	--  ▙▌
 	-- https://github.com/mfussenegger/nvim-jdtls?tab=readme-ov-file#configuration-quickstart
-	{
-		'mfussenegger/nvim-jdtls',
-		ft = 'java',
-		config = function()
-			local jdtls = require('jdtls')
-			local root_markers = {
-				'.git',
-				'mvnw',
-				'gradlew',
-				'pom.xml',
-				'build.gradle',
-				'settings.gradle',
-				'.root',
-				'src',
-			}
-			local root_dir = require('lspconfig.util').root_pattern(
-				unpack(root_markers)
-			)(vim.fn.getcwd()) or vim.fn.getcwd() -- Fallback if no markers found
-
-			local project_name = vim.fn.fnamemodify(root_dir, ':p:h:t')
-			local workspace_dir = vim.fn.stdpath('cache')
-					.. '/jdtls/workspace/'
-					.. project_name
-
-			jdtls.start_or_attach({
-				cmd = {
-					vim.fn.stdpath('data') .. '/mason/packages/jdtls/bin/jdtls',
-					'--data',
-					workspace_dir,
-				},
-				root_dir = root_dir,
-				-- Optional: capabilities, settings, on_attach...
-			})
-		end,
-	},
+	-- {
+	-- 	'mfussenegger/nvim-jdtls',
+	--
+	-- },
 
 
 	--  ▜
@@ -278,11 +296,9 @@ return {
 		end,
 	},
 
-	-- vim-doge
-	-- -- https://github.com/kkoomen/vim-doge?tab=readme-ov-file#configuration
-	-- {
-	-- 	'kkoomen/vim-doge',
-	-- },
+	--    ▛▌█▌▛▌▛▌█▌▛▌
+	--    ▌▌▙▖▙▌▙▌▙▖▌▌
+	--          ▄▌
 	{
 		"danymat/neogen",
 		config = true,
@@ -300,12 +316,12 @@ return {
 		'stevearc/conform.nvim',
 		event = { 'BufReadPre', 'BufNewFile' },
 		cmd = { 'ConformInfo' },
-		dependencies = { 'williamboman/mason.nvim' },
+		dependencies = { 'mason-org/mason.nvim' },
 		opts = {
-			format_on_save   = {
-				lsp_fallback = true,
-				timeout_ms   = 1000,
-			},
+			-- format_on_save   = {
+			--   lsp_fallback = true,
+			--   timeout_ms   = 1000,
+			-- },
 			formatters_by_ft = { -- Formatters
 				lua        = { lsp_format = 'prefer' },
 				python     = { 'black' },
@@ -325,9 +341,9 @@ return {
 					command = 'qmlfmt',
 					args = {
 						'--indent',
-						'2',
+						'4',
 						'--tab-size',
-						'2',
+						'4',
 						'--line-length',
 						'100',
 					},

@@ -1,3 +1,12 @@
+-- Autocmds are automatically loaded on the VeryLazy event
+-- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
+--
+-- Add any additional autocmds here
+-- with `vim.api.nvim_create_autocmd`
+--
+-- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
+-- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+--
 --      ▗                  ▌
 --  ▀▌▌▌▜▘▛▌▛▘▛▌▛▛▌▛▛▌▀▌▛▌▛▌▛▘
 --  █▌▙▌▐▖▙▌▙▖▙▌▌▌▌▌▌▌█▌▌▌▙▌▄▌
@@ -13,58 +22,62 @@
 vim.api.nvim_create_augroup("FileTypeDetection", { clear = true })
 
 vim.api.nvim_create_autocmd("BufRead", {
-	group = "FileTypeDetection",
-	pattern = "*",
-	callback = function()
-		if not vim.fn.expand('%:e') then -- Check if the file has no extension
-			vim.bo.filetype = "conf"       -- Set filetype to 'conf'
-		end
-	end,
+  group = "FileTypeDetection",
+  pattern = "*",
+  callback = function()
+    if not vim.fn.expand('%:e') then -- Check if the file has no extension
+      vim.bo.filetype = "conf"     -- Set filetype to 'conf'
+    end
+  end,
 })
 -- Remove auto comment-inserting
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "*",
-	callback = function()
-		vim.opt_local.formatoptions:remove({ "c", "r" })
-	end,
+  pattern = "*",
+  callback = function()
+    vim.opt_local.formatoptions:remove({ "c", "r" })
+    vim.bo.tabstop = 2
+    vim.bo.shiftwidth = 2
+    vim.bo.softtabstop = 2
+    vim.bo.expandtab = false
+  end,
 })
 
 -- Sqlfluff lint on save
 vim.api.nvim_create_augroup("SqlfluffLint", { clear = true })
 
 vim.api.nvim_create_autocmd("BufWritePost", {
-	pattern = "*.sql",
-	group = "SqlfluffLint",
-	callback = function()
-		-- Use vim.fn to execute shell command and print results
-		local filename = vim.fn.expand("%")
-		local output = vim.fn.system("sqlfluff lint " .. filename .. " --dialect mariadb")
-		-- Output to messages
-		vim.notify(output, vim.log.levels.INFO, { title = "SQLFluff" })
-	end,
+  pattern = "*.sql",
+  group = "SqlfluffLint",
+  callback = function()
+    -- Use vim.fn to execute shell command and print results
+    local filename = vim.fn.expand("%")
+    local output = vim.fn.system("sqlfluff lint " .. filename .. " --dialect mariadb")
+    -- Output to messages
+    vim.notify(output, vim.log.levels.INFO, { title = "SQLFluff" })
+  end,
 })
 
 
 -- rust tab width
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "rust",
-	callback = function()
-		vim.bo.tabstop = 2
-		vim.bo.shiftwidth = 2
-		vim.bo.softtabstop = 2
-		vim.bo.expandtab = false
-	end,
+  pattern = "rust",
+  callback = function()
+    vim.bo.tabstop = 2
+    vim.bo.shiftwidth = 2
+    vim.bo.softtabstop = 2
+    vim.bo.expandtab = false
+  end,
 })
 
 -- conf tab width
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "*.conf",
-	callback = function()
-		vim.bo.tabstop = 2
-		vim.bo.shiftwidth = 2
-		vim.bo.softtabstop = 2
-		vim.bo.expandtab = false
-	end,
+  pattern = "*.conf",
+  callback = function()
+    vim.bo.tabstop = 2
+    vim.bo.shiftwidth = 2
+    vim.bo.softtabstop = 2
+    vim.bo.expandtab = false
+  end,
 })
 -- -- QML tab width
 -- vim.api.nvim_create_autocmd("FileType", {

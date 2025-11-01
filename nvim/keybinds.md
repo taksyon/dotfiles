@@ -1,3 +1,12 @@
+# Commands
+
+## Highlights
+View color scheme
+	- `:h group-name` - See highlights on group name in horizontal split
+  - `:hi` - See list of all highlights
+
+
+
 # Keybindings
 
 ## Basic
@@ -11,6 +20,7 @@
   - `r` - *Enter replace mode (replace one or more character)*
   - `/` - *Enter find mode (search for text)*
   - `:` - *Enter command mode*
+	
   
 ### Navigation
 Cursor
@@ -18,6 +28,12 @@ Cursor
   - `k` - *Move cursor up one line*
   - `h` - *Move cursor left one character*
   - `l` - *Move cursor right one character* 
+
+# LaTeX
+
+$\sqrt{3x-1}+(1+x)^2$
+
+This is inline math: $E = mc^2$.
 
 Words
   - `w` — *Next word*
@@ -124,15 +140,21 @@ Creates multiple cursors so you can edit multiple lines at once
 
 ### snacks.nvim
 
-#### Explorer (file tree)
-  - `<Leader>n` - *Toggle open file picker tree*
-  - `H` - *Move cursor from editor to file tree if it is open*
-  - `L` - *Move cursor from file tree to editor*
-  - `j` & `k` - *Move up and down through file tree*
-  - `l` - *Open directories and files in file tree*
-  - `h` - *Open/close directories in file tree*
+  - Explorer (file tree)
+    - `<Leader>n` - *Toggle open file picker tree*
+    - `H` - *Move cursor from editor to file tree if it is open*
+    - `L` - *Move cursor from file tree to editor*
+    - `j` & `k` - *Move up and down through file tree*
+    - `l` - *Open directories and files in file tree*
+    - `h` - *Open/close directories in file tree*
 
 #### Terminal
   - `<Leader>z` - *Toggle terminal at bottom of editor*
+
+
+### VimTex
+  - `<Leader>ll` - *Compile LaTeX*
+  - `<Leader>lv` - *View PDF*
+  - `<Leader>lc` - *Clean auxiliary files*
 ---
 

@@ -2,7 +2,7 @@
 name = "vibrance"
 default = true
 
-[[shades]]
-name = "blue-light-filter"
-start_time = 20:00:48
-end_time = 06:30:20
+#[[shades]]
+#name = "blue-light-filter"
+#start_time = 20:00:48
+#end_time = 06:30:20
